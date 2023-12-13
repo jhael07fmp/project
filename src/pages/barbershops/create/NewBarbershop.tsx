@@ -1,52 +1,37 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FaPlus } from "react-icons/fa6";
-import { Barbershop } from "../../../interfaces/Interfaces";
-import { getBarbershops } from "../../../api/barbershops";
+import { useForm } from "react-hook-form";
+import InputCustom from "../../../components/Form/Inputs/InputCustom";
 
 const NewBarbershop = () => {
-  const [barbershops, setBarbershops] = useState<Barbershop[]>();
-
-  useEffect(() => {
-    (async () => {
-      const data = await getBarbershops();
-      setBarbershops(data);
-    })();
-  }, []);
-
+  const { handleSubmit, register } = useForm();
   return (
     <div className="container mx-auto mt-24">
       <div className="w-full rounded-md bg-yellow-400 p-4 text-xl font-medium flex items-center justify-between">
-        <p className="text-orange-900">Tus Negocios</p>
-
-        <div className="w-fit gap-4 flex items-center px-2">
-          <Link
-            to={"/Barbershops/new"}
-            className="bg-white text-orange-800 p-2 
-          rounded-md hover:bg-green-50 hover:text-green-500 transition-all"
-          >
-            <FaPlus />
-          </Link>
-        </div>
+        <p className="text-orange-900">Crear nuevo Negocio</p>
       </div>
-      <div className="w-full border p-4 mt-4 rounded-md">
-        <div className="grid md:grid-cols-4 gap-4 justify-items-center">
-          {barbershops?.map((barbershop) => (
-            <div className="w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg">
-              <div className="rounded-md overflow-hidden">
-                <img src={barbershop.image} className="w-full object-cover" />
-              </div>
-              <div className="grid gap-4">
-                <h2 className="font-medium w-11/12 justify-center flex m-auto border-b p-2">
-                  {barbershop.name.toUpperCase()}
-                </h2>
 
-                <Link to={""} className="button-normal">
-                  Detalles
-                </Link>
-              </div>
+      <div className="container border p-4 mt-4 rounded-md">
+        <div className="w-7/12 mx-auto   p-2 rounded-md">
+          <form
+            onSubmit={handleSubmit(
+              (data) => {},
+              (err) => {}
+            )}
+          >
+            <div className="w-full grid grid-cols-2 gap-20">
+              <InputCustom
+                label="Nombre"
+                name="name"
+                placeholder="Escribe el nombre"
+                register={register}
+              />
+              <InputCustom
+                label="Nombre"
+                name="name"
+                placeholder="Escribe el nombre"
+                register={register}
+              />
             </div>
-          ))}
+          </form>
         </div>
       </div>
     </div>

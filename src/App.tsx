@@ -6,6 +6,7 @@ import AuthContext from "./context/authContext";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import NavbarContext from "./context/NavbarContext";
 import Barbershops from "./pages/barbershops/Barbershops";
+import NewBarbershop from "./pages/barbershops/create/NewBarbershop";
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/barbershops" element={<Barbershops />} />
-              <Route path="/barbershops/new" element={<Barbershops />} />
+              <Route path="/barbershops/new" element={<NewBarbershop />} />
             </Route>
 
             <Route path="/login" element={<Login />} />
