@@ -35,22 +35,15 @@ export interface Barbershop {
   taxId: string;
   name: string;
   address: string;
-  schedule: ScheduleType;
+  schedule?: ScheduleType;
   services: Service[];
-  barbers: Barber[];
-  rating: number;
-  lat: number;
-  lon: number;
+  rating?: number;
+  lat?: number;
+  lon?: number;
+  image?: string;
 }
 
-export interface Service {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  specialPrice: number;
-  durationInMin: number;
-}
+export type Service = string[];
 
 export interface Barber {
   id: string;

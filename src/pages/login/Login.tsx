@@ -3,12 +3,13 @@
 import InputCustom from "../../components/Form/Inputs/InputCustom";
 import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
-import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
+  const { login } = useAuthContext();
+  const navigate = useNavigate();
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
@@ -17,9 +18,8 @@ const SignUp = () => {
           onSubmit={handleSubmit(
             async (data) => {
               try {
-                const message = await signInWithEmailAndPassword(auth, data.email, data.password);
-                console.log(message);
-                alert("succcess");
+                await login(data.email, data.password);
+                navigate("/");
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;

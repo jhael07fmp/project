@@ -6,9 +6,11 @@ import { User } from "../../interfaces/Interfaces";
 import InputCustom from "../../components/Form/Inputs/InputCustom";
 import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const createUser = async ({ email, password }: { email: string; password: string }) => {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -16,6 +18,7 @@ const SignUp = () => {
   };
 
   const signUp = async (userData: User) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const u = userData as any;
     delete u.password;
     await postUser(userData.id, { ...(u as User) });
@@ -29,8 +32,13 @@ const SignUp = () => {
             async (data) => {
               try {
                 const userId = await createUser({ email: data.email, password: data.password });
-                await signUp({ ...data, id: userId!, email: data.email });
-                alert("User created Successfully");
+                await signUp({
+                  ...data,
+                  id: userId!,
+                  email: data.email,
+                  roles: [{ id: "customer", name: "CUSTOMER" }],
+                });
+                navigate("/");
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
@@ -44,7 +52,7 @@ const SignUp = () => {
             }
           )}
         >
-          <div className=" grid gap-6 grid-cols-2  pb-10  ">
+          <div className=" grid gap-6 lg:grid-cols-2  pb-10  ">
             <InputCustom
               label="Name"
               name="name"
@@ -82,7 +90,7 @@ const SignUp = () => {
               register={register}
             />
           </div>
-          <button className="bg-yellow-400 text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 ">
+          <button className="bg-yellow-400 text-orange-800 p-3 rounded-lg font-medium mt-4  w-10/12 mx-auto">
             Sign up
           </button>
         </form>

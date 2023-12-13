@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button-normal {
+  @apply bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all 
+  text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center;
+}
