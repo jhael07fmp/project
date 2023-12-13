@@ -7,12 +7,14 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
+import { User } from "../interfaces/Interfaces";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const context = createContext<any>(null);
 
 const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [userData, setUserData] = useState<User>();
 
   const login = async (email: string, password: string) => {
     await setPersistence(auth, browserLocalPersistence);
@@ -34,6 +36,8 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     loading,
     login,
     logout,
+    userData,
+    setUserData,
   };
 
   return <context.Provider value={value}>{children}</context.Provider>;

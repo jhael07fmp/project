@@ -10,10 +10,7 @@ export interface User {
   roles?: Role[];
 }
 
-export interface Role {
-  id: string;
-  name: string;
-}
+export type Role = string;
 
 export type DateRangeType = {
   from: number | string;
@@ -49,10 +46,11 @@ export interface Barber {
   id: string;
   name: string;
   userId: string;
+  barbershopId: string;
   taxId: string;
-  schedule: ScheduleType;
-  services: Service[];
-  rating: number;
+  schedule?: ScheduleType;
+  services?: Service[];
+  rating?: number;
 }
 
 export interface Appointment {

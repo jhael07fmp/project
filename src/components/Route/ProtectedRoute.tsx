@@ -6,19 +6,26 @@ import Navbar from "../Navbar/Navbar";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FaUsersLine } from "react-icons/fa6";
 import { useNavbarContext } from "../../context/NavbarContext";
+import { getUser } from "../../api/users";
+import { Link } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const { currentUser } = useAuthContext();
+  const { currentUser, setUserData, userData } = useAuthContext();
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     (async () => {
       const user = await currentUser();
+      if (user) {
+        const findUser = await getUser(user?.uid);
+        setUserData(findUser as any);
+      }
+
       if (!user) navigate("/login");
       else setIsLoggedIn(true);
     })();
-  }, [currentUser, navigate]);
+  }, []);
 
   const { isOpen, setIsOpen } = useNavbarContext();
   return isLoggedIn ? (
@@ -41,32 +48,23 @@ const ProtectedRoute = () => {
             isOpen ? "left-[-1rem]" : "left-0"
           }`}
         >
-          <button
-            className="w-11/12 mx-auto text-center mt-2 p-4 flex items-center rounded-lg duration-300 
-             hover:text-white transition-all
-          justify-center gap-4 bg-yellow-500 text-orange-800 font-medium"
-          >
-            <IoStorefrontSharp className="text-2xl" /> Local
-          </button>
+          {userData.roles?.includes("admin") && (
+            <>
+              <Link to="/barbershops" className="sidebar-options">
+                <IoStorefrontSharp className="text-2xl" /> Locales
+              </Link>
 
-          <button
-            className="w-11/12 mx-auto text-center mt-2 p-4 flex items-center rounded-lg duration-300  hover:text-white transition-all
-          justify-center gap-4 bg-yellow-500 text-orange-800 font-medium"
-          >
-            <FaUsersLine className="text-2xl" /> Empleados
-          </button>
-          <button
-            className="w-11/12 mx-auto text-center mt-2 p-4 flex items-center rounded-lg duration-300  hover:text-white transition-all
-          justify-center gap-4 bg-yellow-500 text-orange-800 font-medium"
-          >
-            <FaUsersLine className="text-2xl" /> Servicios
-          </button>
-          <button
-            className="w-11/12 mx-auto text-center mt-2 p-4 flex items-center rounded-lg duration-300  hover:text-white transition-all
-          justify-center gap-4 bg-yellow-500 text-orange-800 font-medium"
-          >
-            <FaUsersLine className="text-2xl" /> Citas
-          </button>
+              <button className="sidebar-options">
+                <FaUsersLine className="text-2xl" /> Empleados
+              </button>
+              <button className="sidebar-options">
+                <FaUsersLine className="text-2xl" /> Servicios
+              </button>
+              <button className="sidebar-options">
+                <FaUsersLine className="text-2xl" /> Citas
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

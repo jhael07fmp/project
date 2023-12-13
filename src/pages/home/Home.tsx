@@ -36,7 +36,7 @@ export const Home = () => {
             </div>
 
             <div
-              className=" hidden md:block absolute group-hover:-bottom-[12rem] left-0 mx-auto group-hover:z-20  
+              className=" hidden md:block absolute group-hover:-bottom-[12rem] left-0 mx-auto   
               rounded-lg group-hover:shadow-xl 
                z-[-2] transition-all duration-500 h-fit bg-white p-1 border w-full justify-center bottom-0"
             >

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../search/SearchBar";
 import { useNavbarContext } from "../../context/NavbarContext";
 import { MdMenu } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { logout } = useAuthContext();
@@ -26,12 +27,13 @@ const Navbar = () => {
               <MdOutlineClose className="text-2xl text-gray-500" />
             )}
           </button>
-          <h2
+          <Link
+            to="/"
             className="font-medium flex gap-1 font-sans text-sm sm:text-lg md:text-xl
            bg-yellow-500 text-white p-2 rounded-lg w-fit"
           >
             TuPeluqueria <span className="hidden sm:flex">App</span>
-          </h2>
+          </Link>
         </div>
         <div className="w-7/12 lg:w-5/12">
           <SearchBar />
