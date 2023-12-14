@@ -28,6 +28,7 @@ const App = () => {
               <Route path="/barbershops/details/employees/:id" element={<ViewEmployees />} />
 
               <Route path="/appointment/:barbershopId/:barberId" element={<NewAppoiment />} />
+              <Route path="/appointment/:barbershopId/" element={<NewAppoiment />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

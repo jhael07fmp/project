@@ -36,16 +36,33 @@ export const Home = () => {
   return (
     <div className="container mt-24  mx-auto flex">
       <div className="grid md:grid-cols-4 gap-4 justify-items-center w-full">
-        {filterItems?.map((item: Barber | Barbershop, i: number) => (
-          <div className="w-full flex justify-center" key={i}>
-            <CardDetail
-              services={item.services}
-              buttonTitle="Hacer Cita"
-              image={item.image}
-              name={item.name}
-            />
-          </div>
-        ))}
+        {filterItems?.length > 0 ? (
+          filterItems?.map((item: Barber, i: number) => (
+            <div className="w-full flex justify-center" key={i}>
+              <CardDetail
+                services={item.services}
+                buttonTitle="Hacer Cita"
+                image={item.image}
+                name={item.name}
+                buttonUrl={
+                  item.barbershopId
+                    ? `/appointment/${item.barbershopId}/${item.id}`
+                    : `/appointment/${item.id}`
+                }
+              />
+            </div>
+          ))
+        ) : (
+          <>
+            {[1, 2, 3, 4].map((_i, i) => {
+              return (
+                <div className="w-full flex justify-center" key={i}>
+                  <CardDetail buttonTitle="Hacer Cita" name={"Loading"} />
+                </div>
+              );
+            })}
+          </>
+        )}
       </div>
     </div>
   );

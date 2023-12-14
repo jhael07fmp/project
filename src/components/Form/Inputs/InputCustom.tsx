@@ -181,6 +181,21 @@ const InputCustom = (props: InputCustomType) => {
           />
         </InputWrapper>
       );
+
+    case "datetime":
+      return (
+        <InputWrapper>
+          <LabelForInput label={label} required={rules} />
+          <DatePicker
+            showTime
+            format={"DD/MM/YYYY hh:mm a"}
+            // defaultValue={dayjs(defaultValue as Date)}
+            placeholder={placeholder}
+            className="w-full p-[0.6rem] border border-gray-200"
+            onChange={handleChangeDate}
+          />
+        </InputWrapper>
+      );
   }
 };
 
@@ -193,24 +208,11 @@ const InputWrapper = ({
   children: React.ReactNode;
   isVisible?: boolean;
 }) => {
-  return (
-    <>
-      {isVisible ? (
-        <div className="w-full min-w-[18rem]">{children}</div>
-      ) : null}
-    </>
-  );
+  return <>{isVisible ? <div className="w-full min-w-[18rem]">{children}</div> : null}</>;
 };
 
-const LabelForInput = ({
-  label,
-  required,
-}: {
-  label: string;
-  required: any;
-}) => (
+const LabelForInput = ({ label, required }: { label: string; required: any }) => (
   <p className="mb-2 font-sans text-slate-500 flex gap-2">
-    {label}{" "}
-    {required?.required?.value && <span className="text-red-500">*</span>}{" "}
+    {label} {required?.required?.value && <span className="text-red-500">*</span>}{" "}
   </p>
 );

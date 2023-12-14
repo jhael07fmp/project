@@ -26,6 +26,7 @@ export type InputCustomType = {
     | "text"
     | "number"
     | "date"
+    | "datetime"
     | "radius"
     | "upload"
     | "tablaAmortizacion"
