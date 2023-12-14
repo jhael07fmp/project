@@ -51,6 +51,7 @@ export interface Barber {
   schedule?: ScheduleType;
   services?: Service[];
   rating?: number;
+  image?: string;
 }
 
 export interface Appointment {

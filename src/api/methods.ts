@@ -1,5 +1,6 @@
 import {
   DocumentData,
+  WhereFilterOp,
   WithFieldValue,
   collection,
   doc,
@@ -7,6 +8,7 @@ import {
   getDocs,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
@@ -27,6 +29,23 @@ export const getOne = async <T>({ id, colletionName }: getType) => {
 export const getMany = async <T>({ colletionName }: { colletionName: string }) => {
   const ref = collection(db, colletionName);
   const q = query(ref);
+  const d = await getDocs(q);
+  return d.docs.map((x) => x.data() as T);
+};
+
+export const getWhere = async <T>({
+  colletionName,
+  property,
+  condition,
+  compareValue,
+}: {
+  colletionName: string;
+  property: string;
+  condition: WhereFilterOp;
+  compareValue: string | number | boolean;
+}) => {
+  const ref = collection(db, colletionName);
+  const q = query(ref, where(property, condition, compareValue));
   const d = await getDocs(q);
   return d.docs.map((x) => x.data() as T);
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import InputCustom from "../../../components/Form/Inputs/InputCustom";
 import OptionsBar from "../../../components/OptionsBar/OptionsBar";

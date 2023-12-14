@@ -18,6 +18,7 @@ const DetailsBarbershops = () => {
     (async () => {
       setBarberShopInfo(await getBarbershop(id as string));
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -51,23 +52,14 @@ const DetailsBarbershops = () => {
             </div>
             <div className=" h-fit p-2">
               <p className="text-sm font-medium text-gray-500">Dirección</p>
-              {barbershopInfo ? (
-                <p>{barbershopInfo?.address}</p>
-              ) : (
-                <RectangleSm />
-              )}
+              {barbershopInfo ? <p>{barbershopInfo?.address}</p> : <RectangleSm />}
             </div>
             <div className=" h-fit p-2">
-              <p className="text-sm font-medium text-gray-500 mb-4">
-                Servicios
-              </p>
+              <p className="text-sm font-medium text-gray-500 mb-4">Servicios</p>
               {barbershopInfo ? (
                 <div className="flex flex-wrap gap-2">
                   {barbershopInfo?.services.map((service, i) => (
-                    <div
-                      key={i}
-                      className="rounded-md bg-blue-500 p-2 text-white font-medium"
-                    >
+                    <div key={i} className="rounded-md bg-blue-500 p-2 text-white font-medium">
                       {service}
                     </div>
                   ))}
@@ -84,17 +76,12 @@ const DetailsBarbershops = () => {
             </div>
 
             <div className=" h-full p-2">
-              <p className="text-sm font-medium text-gray-500 mb-4">
-                Empleados
-              </p>
+              <p className="text-sm font-medium text-gray-500 mb-4">Empleados</p>
               <div className="w-8/12  flex gap-3">
-                <Link to={""} className="button-employees">
+                <Link to={`/barbershops/details/employees/${id}`} className="button-employees">
                   <MdRemoveRedEye className="text-2xl" />
                 </Link>
-                <Link
-                  to={`/barbershops/employees/new/${id}`}
-                  className="button-employees"
-                >
+                <Link to={`/barbershops/employees/new/${id}`} className="button-employees">
                   <FaPlus className="text-2xl" />
                 </Link>
               </div>

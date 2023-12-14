@@ -9,6 +9,8 @@ import Barbershops from "./pages/barbershops/Barbershops";
 import NewBarbershop from "./pages/barbershops/create/NewBarbershop";
 import DetailsBarbershops from "./pages/barbershops/details/DetailsBarbershops";
 import CreateEmployees from "./pages/barbershops/employees/CreateEmployees";
+import ViewEmployees from "./pages/barbershops/employees/ViewEmployees";
+import NewAppoiment from "./pages/appointments/NewAppoiment";
 
 const App = () => {
   return (
@@ -18,16 +20,14 @@ const App = () => {
           <Routes>
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
+
               <Route path="/barbershops" element={<Barbershops />} />
               <Route path="/barbershops/new" element={<NewBarbershop />} />
-              <Route
-                path="/barbershops/employees/new/:id"
-                element={<CreateEmployees />}
-              />
-              <Route
-                path="/barbershops/details/:id"
-                element={<DetailsBarbershops />}
-              />
+              <Route path="/barbershops/employees/new/:id" element={<CreateEmployees />} />
+              <Route path="/barbershops/details/:id" element={<DetailsBarbershops />} />
+              <Route path="/barbershops/details/employees/:id" element={<ViewEmployees />} />
+
+              <Route path="/appointment/:barbershopId/:barberId" element={<NewAppoiment />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

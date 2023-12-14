@@ -1,64 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Barbershop } from "../../interfaces/Interfaces";
+import { Barber, Barbershop } from "../../interfaces/Interfaces";
 import { getBarbershops } from "../../api/barbershops";
-import { Link } from "react-router-dom";
+import { getBarbers } from "../../api/barbers";
+import { useNavbarContext } from "../../context/NavbarContext";
+import CardDetail from "../../components/cards/CardDetail";
 
 export const Home = () => {
-  useEffect(() => {
-    (async () => {})();
-  }, []);
+  const { searchTerm } = useNavbarContext();
 
-  const [barbershops, setBarbershops] = useState<Barbershop[] | null>();
+  const [filterItems, setFilterItems] = useState<Barbershop[] | Barber[] | null | any>();
+  const [items, setItems] = useState<Barbershop[] | Barber[] | null | any>();
 
   useEffect(() => {
     (async () => {
       const barbershops = await getBarbershops();
-      setBarbershops(barbershops);
+      const barbers = await getBarbers();
+      setItems([...barbershops, ...barbers]);
+      setFilterItems([...barbershops, ...barbers]);
     })();
   }, []);
 
+  useEffect(() => {
+    if (items?.length > 0) {
+      const filterItems: Barbershop[] | Barber[] | any = items?.filter(
+        ({ name }: { name: string }) => {
+          return name?.toLowerCase()?.includes(searchTerm?.toLowerCase());
+        }
+      );
+      setFilterItems(filterItems);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+
   return (
     <div className="container mt-24  mx-auto flex">
-      <div className="grid md:grid-cols-4 gap-4 justify-items-center">
-        {barbershops?.map((barbershop, i) => (
-          <div
-            key={i}
-            className="w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg"
-          >
-            <div className="rounded-md overflow-hidden">
-              <img src={barbershop.image} className="w-full object-cover" />
-            </div>
-            <div className="grid gap-4">
-              <h2 className="font-medium w-11/12 justify-center flex m-auto border-b p-2">
-                {barbershop.name.toUpperCase()}
-              </h2>
-
-              <Link to={""} className="button-normal">
-                Hacer Cita
-              </Link>
-            </div>
-
-            <div
-              className={`hidden md:block absolute ${
-                barbershop.services?.length >= 3 && "group-hover:-bottom-44"
-              } 
-              ${barbershop.services?.length === 2 && "group-hover:-bottom-32"} 
-              ${barbershop.services?.length === 1 && "group-hover:-bottom-24"} 
-              left-0 mx-auto   
-              rounded-lg group-hover:shadow-xl 
-               z-[-2] transition-all duration-500 min-h-40 bg-white p-1 border w-full justify-center bottom-0`}
-            >
-              <h3 className="text-orange-600 text-base font-bold  mx-auto w-fit flex mb-2">
-                Servicios
-              </h3>
-              <div className="h-fit grid gap-2 w-11/12 mx-auto">
-                {barbershop.services.slice(0, 3).map((s) => (
-                  <div className="bg-blue-500 p-2 rounded w-full h-fit text-center text-white">
-                    {s}
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="grid md:grid-cols-4 gap-4 justify-items-center w-full">
+        {filterItems?.map((item: Barber | Barbershop, i: number) => (
+          <div className="w-full flex justify-center" key={i}>
+            <CardDetail
+              services={item.services}
+              buttonTitle="Hacer Cita"
+              image={item.image}
+              name={item.name}
+            />
           </div>
         ))}
       </div>

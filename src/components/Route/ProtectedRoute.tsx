@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/authContext";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -25,6 +26,7 @@ const ProtectedRoute = () => {
       if (!user) navigate("/login");
       else setIsLoggedIn(true);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { isOpen, setIsOpen } = useNavbarContext();
@@ -36,7 +38,7 @@ const ProtectedRoute = () => {
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="bg-[#0000003f] w-full min-h-screen absolute left-0 top-0 transition-all duration-300"
+          className="bg-[#0000003f] w-full min-h-screen fixed left-0 top-0 transition-all duration-300"
         ></div>
       )}
       <div
