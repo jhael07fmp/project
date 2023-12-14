@@ -34,8 +34,7 @@ const BarberDetails = () => {
       setAppointment(
         appointmentsArr.filter(
           ({ dateInMillis }) =>
-            dateInMillis > addDays(new Date(), -1).getTime() &&
-            dateInMillis < addDays(new Date(), 1).getTime()
+            dateInMillis > addDays(new Date(), -1).getTime() && dateInMillis <= new Date().getTime()
         )
       );
     })();
@@ -46,7 +45,7 @@ const BarberDetails = () => {
     <div className="page-container">
       <OptionsBar>
         <p className="text-orange-900">Barbero: {barber?.name}</p>
-        <GoBackButton />
+        {!userData.roles?.includes("employee") && <GoBackButton />}
       </OptionsBar>
 
       <div className="container border p-4 mt-4 rounded-md">
@@ -110,7 +109,7 @@ const BarberDetails = () => {
                     </div>
                   )}
 
-                  {status === "open" && (
+                  {status === "open" && userData.roles?.includes("employee") && (
                     <div className="flex gap-2  justify-center">
                       <button
                         onClick={() => {
