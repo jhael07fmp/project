@@ -48,7 +48,7 @@ const ProtectedRoute = () => {
             isOpen ? "left-[-1rem]" : "left-0"
           }`}
         >
-          {userData.roles?.includes("admin") && (
+          {userData?.roles?.includes("admin") && (
             <>
               <Link to="/barbershops" className="sidebar-options">
                 <IoStorefrontSharp className="text-2xl" /> Locales

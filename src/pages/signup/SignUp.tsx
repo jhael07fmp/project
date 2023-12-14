@@ -1,28 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { auth } from "../../config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { postUser } from "../../api/users";
-import { User } from "../../interfaces/Interfaces";
 import InputCustom from "../../components/Form/Inputs/InputCustom";
 import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
+import { createUser, signUp } from "../../api/users";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-
-  const createUser = async ({ email, password }: { email: string; password: string }) => {
-    const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    return user.uid;
-  };
-
-  const signUp = async (userData: User) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const u = userData as any;
-    delete u.password;
-    await postUser(userData.id, { ...(u as User) });
-  };
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
@@ -31,12 +16,15 @@ const SignUp = () => {
           onSubmit={handleSubmit(
             async (data) => {
               try {
-                const userId = await createUser({ email: data.email, password: data.password });
+                const userId = await createUser({
+                  email: data.email,
+                  password: data.password,
+                });
                 await signUp({
                   ...data,
                   id: userId!,
                   email: data.email,
-                  roles: [{ id: "customer", name: "CUSTOMER" }],
+                  roles: ["customer"],
                 });
                 navigate("/");
               } catch (err) {
@@ -74,7 +62,9 @@ const SignUp = () => {
               label="Email"
               name="email"
               placeholder="Email"
-              rules={{ required: { value: true, message: "Email is required" } }}
+              rules={{
+                required: { value: true, message: "Email is required" },
+              }}
               register={register}
             />
 
@@ -84,7 +74,10 @@ const SignUp = () => {
               placeholder="Password"
               rules={{
                 required: { value: true, message: "Password is required" },
-                minLength: { message: "Password needs to be at least 6 digits", value: 6 },
+                minLength: {
+                  message: "Password needs to be at least 6 digits",
+                  value: 6,
+                },
               }}
               type="password"
               register={register}

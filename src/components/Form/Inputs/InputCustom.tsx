@@ -60,11 +60,7 @@ const InputCustom = (props: InputCustomType) => {
     case "select":
       return (
         <InputWrapper isVisible={isVisible}>
-          <SelectCustom
-            rules={undefined}
-            register={() => {}}
-            {...inputsProps}
-          />
+          <SelectCustom rules={rules} register={() => {}} {...inputsProps} />
         </InputWrapper>
       );
 
