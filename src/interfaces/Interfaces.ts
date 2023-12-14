@@ -40,7 +40,7 @@ export interface Barbershop {
   image?: string;
 }
 
-export type Service = string[];
+export type Service = string;
 
 export interface Barber {
   id: string;

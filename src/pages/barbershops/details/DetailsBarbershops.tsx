@@ -88,17 +88,12 @@ const DetailsBarbershops = () => {
                 Empleados
               </p>
               <div className="w-8/12  flex gap-3">
-                <Link
-                  to={""}
-                  className="w-full h-fit flex justify-center items-center rounded-md bg-yellow-400 p-2.5
-                   hover:bg-yellow-500 hover:text-white text-yellow-700 active:scale-95 transition-all"
-                >
+                <Link to={""} className="button-employees">
                   <MdRemoveRedEye className="text-2xl" />
                 </Link>
                 <Link
-                  to={""}
-                  className="w-full h-fit flex justify-center items-center rounded-md bg-yellow-400 p-2.5
-                  hover:bg-yellow-500 hover:text-white text-yellow-700 active:scale-95 transition-all"
+                  to={`/barbershops/employees/new/${id}`}
+                  className="button-employees"
                 >
                   <FaPlus className="text-2xl" />
                 </Link>

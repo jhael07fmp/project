@@ -8,6 +8,7 @@ import NavbarContext from "./context/NavbarContext";
 import Barbershops from "./pages/barbershops/Barbershops";
 import NewBarbershop from "./pages/barbershops/create/NewBarbershop";
 import DetailsBarbershops from "./pages/barbershops/details/DetailsBarbershops";
+import CreateEmployees from "./pages/barbershops/employees/CreateEmployees";
 
 const App = () => {
   return (
@@ -19,6 +20,10 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/barbershops" element={<Barbershops />} />
               <Route path="/barbershops/new" element={<NewBarbershop />} />
+              <Route
+                path="/barbershops/employees/new/:id"
+                element={<CreateEmployees />}
+              />
               <Route
                 path="/barbershops/details/:id"
                 element={<DetailsBarbershops />}

@@ -9,6 +9,20 @@ import GoBackButton from "../../../components/buttons/GoBackButton";
 const NewBarbershop = () => {
   const { handleSubmit, register } = useForm();
   const navigate = useNavigate();
+  const handleSuccess = async (data: any) => {
+    try {
+      const id = crypto.randomUUID();
+      await postBarbershop(id, {
+        ...(data as Barbershop),
+        services: data.services.split(","),
+        id,
+      });
+      navigate("/barbershops");
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div className="w-11/12 mx-auto mt-24">
       <OptionsBar>
@@ -17,27 +31,7 @@ const NewBarbershop = () => {
       </OptionsBar>
 
       <div className="container border p-4 mt-4 rounded-md">
-        <form
-          onSubmit={handleSubmit(
-            async (data) => {
-              try {
-                const id = crypto.randomUUID();
-                await postBarbershop(id, {
-                  ...(data as Barbershop),
-                  services: data.services.split(","),
-                  id,
-                });
-                navigate("/barbershops");
-              } catch (err: any) {
-                alert(err.message);
-              }
-            },
-            (err) => {
-              const errorToShow = Object.keys(err);
-              alert(err[errorToShow[0]]?.message);
-            }
-          )}
-        >
+        <form onSubmit={handleSubmit(handleSuccess, handleError)}>
           <div className="w-11/12 md:w-7/12 mx-auto   p-2 rounded-md">
             <div className="form-normal-grid">
               <InputCustom
@@ -103,3 +97,8 @@ const NewBarbershop = () => {
 };
 
 export default NewBarbershop;
+
+export const handleError = (err: any) => {
+  const errorToShow = Object.keys(err);
+  alert(err[errorToShow[0]]?.message);
+};

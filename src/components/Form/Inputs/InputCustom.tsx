@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import UploadInput from "./UploadInput";
 import { AiOutlineEye } from "react-icons/ai";
+import SelectCustom from "./SelectCustom";
 
 /* eslint-disable @typescript-eslint/ban-types */
 
@@ -21,7 +22,7 @@ const InputCustom = (props: InputCustomType) => {
     type = "text",
     setValue,
     defaultValue,
-    // options,
+    options,
     isVisible,
     modalContent,
   } = props;
@@ -33,16 +34,16 @@ const InputCustom = (props: InputCustomType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const inputsProps = {
-  //   options,
-  //   defaultValue,
-  //   disabled,
-  //   name,
-  //   placeholder,
-  //   required: rules?.required,
-  //   setValue: setValue,
-  //   label,
-  // };
+  const inputsProps = {
+    options,
+    defaultValue,
+    disabled,
+    name,
+    placeholder,
+    required: rules?.required,
+    setValue: setValue,
+    label,
+  };
 
   const handleChangeRadius = (e: any) => {
     setValue?.(name, e.target.value);
@@ -56,12 +57,16 @@ const InputCustom = (props: InputCustomType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   switch (type) {
-    // case "select":
-    //   return (
-    //     <InputWrapper isVisible={isVisible}>
-    //       <SelectCustom rules={undefined} register={() => {}} {...inputsProps} />
-    //     </InputWrapper>
-    //   );
+    case "select":
+      return (
+        <InputWrapper isVisible={isVisible}>
+          <SelectCustom
+            rules={undefined}
+            register={() => {}}
+            {...inputsProps}
+          />
+        </InputWrapper>
+      );
 
     case "tablaAmortizacion":
       return (
@@ -192,11 +197,24 @@ const InputWrapper = ({
   children: React.ReactNode;
   isVisible?: boolean;
 }) => {
-  return <>{isVisible ? <div className="w-full min-w-[18rem]">{children}</div> : null}</>;
+  return (
+    <>
+      {isVisible ? (
+        <div className="w-full min-w-[18rem]">{children}</div>
+      ) : null}
+    </>
+  );
 };
 
-const LabelForInput = ({ label, required }: { label: string; required: any }) => (
+const LabelForInput = ({
+  label,
+  required,
+}: {
+  label: string;
+  required: any;
+}) => (
   <p className="mb-2 font-sans text-slate-500 flex gap-2">
-    {label} {required?.required?.value && <span className="text-red-500">*</span>}{" "}
+    {label}{" "}
+    {required?.required?.value && <span className="text-red-500">*</span>}{" "}
   </p>
 );

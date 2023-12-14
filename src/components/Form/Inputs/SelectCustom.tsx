@@ -6,11 +6,19 @@ import { InputCustomType } from "./types/types";
 
 interface SelectCustomProps extends InputCustomType {
   setValue?: Function;
-  required: boolean;
 }
 
 const SelectCustom = (props: SelectCustomProps) => {
-  const { disabled, label, setValue, required, placeholder, name, defaultValue, options } = props;
+  const {
+    disabled,
+    label,
+    setValue,
+    placeholder,
+    name,
+    defaultValue,
+    options,
+    rules,
+  } = props;
 
   const optionsWithKeys = options?.map((option, i) => ({
     ...option,
@@ -20,7 +28,7 @@ const SelectCustom = (props: SelectCustomProps) => {
   return (
     <>
       <p className="mb-2 font-sans text-slate-500 flex gap-2">
-        {label} {required && <span className="text-red-500">*</span>}
+        {label} {rules?.required && <span className="text-red-500">*</span>}
       </p>
       <Select
         size="large"
