@@ -30,11 +30,13 @@ const SignUp = () => {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
                   message.error(fe.message, 2);
+                  setLoading(false);
                 }
               }
             },
             (err) => {
               Object.keys(err).forEach((x) => message.error(err[x]?.message as string, 2));
+              setLoading(false);
             }
           )}
         >

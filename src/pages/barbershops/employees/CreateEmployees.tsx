@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getBarbershops } from "../../../api/barbershops";
 import { createUser, signUp } from "../../../api/users";
 import { postBarber } from "../../../api/barbers";
+import { message } from "antd";
 
 const CreateEmployees = () => {
   const { handleSubmit, register, setValue, reset, watch } = useForm();
@@ -37,7 +38,7 @@ const CreateEmployees = () => {
           onSubmit={handleSubmit(async (data) => {
             try {
               if (!data.barbershopId) {
-                alert("Barbershop is required");
+                message.error("Barbershop is required", 2);
                 return;
               }
 
@@ -62,7 +63,7 @@ const CreateEmployees = () => {
               });
               await postBarber(newBarber.id, newBarber);
 
-              alert("Barbero created Successfully");
+              message.success("Barbero created Successfully", 2);
               reset();
               setValue("barbershopId", "");
             } catch (err) {

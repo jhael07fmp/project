@@ -12,6 +12,7 @@ import { Appointment, Barber, Barbershop } from "../../../interfaces/Interfaces"
 import { useAuthContext } from "../../../context/authContext";
 import { postAppointment } from "../../../api/appoitment";
 import { User } from "firebase/auth";
+import { message } from "antd";
 
 const NewAppoiment = () => {
   const { currentUser: getuser } = useAuthContext();
@@ -91,9 +92,9 @@ const NewAppoiment = () => {
               };
 
               await postAppointment(id, dataForm as Appointment);
-              alert("Cita Agendada");
+              message.success("Cita Agendada", 2);
             } catch (err: any) {
-              alert(err.message);
+              message.success(err.message, 2);
             }
           }, handleError)}
         >

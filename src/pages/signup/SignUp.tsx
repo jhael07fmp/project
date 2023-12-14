@@ -5,10 +5,12 @@ import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { createUser, signUp } from "../../api/users";
 import { message } from "antd";
+import { useState } from "react";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
@@ -22,6 +24,7 @@ const SignUp = () => {
                   password: data.password,
                   name: data.name,
                 });
+                setLoading(true);
                 await signUp({
                   ...data,
                   id: userId!,
@@ -29,20 +32,20 @@ const SignUp = () => {
                   roles: ["customer"],
                 });
 
-                message.success("User successfully created");
-
-                setTimeout(() => {
-                  navigate("/");
-                }, 1000);
+                setLoading(false);
+                message.success("User successfully created", 2);
+                navigate("/");
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
-                  message.error(fe.message);
+                  message.error(fe.message, 2);
+                  setLoading(false);
                 }
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => message.error(err[x]?.message as string));
+              Object.keys(err).forEach((x) => message.error(err[x]?.message as string, 2));
+              setLoading(false);
             }
           )}
         >
@@ -89,7 +92,10 @@ const SignUp = () => {
               register={register}
             />
           </div>
-          <button className="bg-yellow-400 text-orange-800 p-3 rounded-lg font-medium mt-4  w-10/12 mx-auto">
+          <button
+            disabled={loading}
+            className="bg-yellow-400 text-orange-800 p-3 rounded-lg font-medium mt-4  w-10/12 mx-auto"
+          >
             Sign up
           </button>
         </form>

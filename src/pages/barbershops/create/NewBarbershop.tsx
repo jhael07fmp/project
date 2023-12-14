@@ -7,6 +7,7 @@ import { postBarbershop } from "../../../api/barbershops";
 import { Barbershop } from "../../../interfaces/Interfaces";
 import GoBackButton from "../../../components/buttons/GoBackButton";
 import { FirebaseError } from "firebase/app";
+import { message } from "antd";
 
 const NewBarbershop = () => {
   const { handleSubmit, register } = useForm();
@@ -21,7 +22,7 @@ const NewBarbershop = () => {
       });
       navigate("/barbershops");
     } catch (err: any) {
-      alert(err.message);
+      message.error(err.message);
     }
   };
 
@@ -102,10 +103,10 @@ export default NewBarbershop;
 
 export const handleError = (err: FirebaseError | any) => {
   if (err instanceof FirebaseError) {
-    alert(err.message);
+    message.error(err.message, 2);
     return;
   }
   console.log(err);
   const errorToShow = Object.keys(err);
-  alert(err[errorToShow[0]]?.message);
+  message.error(err[errorToShow[0]]?.message, 2);
 };
