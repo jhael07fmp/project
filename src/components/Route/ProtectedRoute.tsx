@@ -28,6 +28,7 @@ const ProtectedRoute = () => {
   }, []);
 
   const { isOpen, setIsOpen } = useNavbarContext();
+
   return isLoggedIn ? (
     <>
       <Navbar />
