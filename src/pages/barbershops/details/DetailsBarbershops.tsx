@@ -5,6 +5,9 @@ import { useParams } from "react-router-dom";
 import { getBarbershop } from "../../../api/barbershops";
 import { Barbershop } from "../../../interfaces/Interfaces";
 import RectangleSm from "../../../components/skeleton/RectangleSm";
+import { Link } from "react-router-dom";
+import { MdRemoveRedEye } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
 
 const DetailsBarbershops = () => {
   const { id } = useParams();
@@ -16,8 +19,6 @@ const DetailsBarbershops = () => {
       setBarberShopInfo(await getBarbershop(id as string));
     })();
   }, []);
-
-  console.log(barbershopInfo);
 
   return (
     <div className="page-container">
@@ -43,7 +44,7 @@ const DetailsBarbershops = () => {
           ) : (
             <div className="w-full rounded-md shadow-md overflow-hidden h-96  bg-gray-100"></div>
           )}
-          <div className="border-t border-b grid grid-cols-2 p-2">
+          <div className="border-t border-b grid grid-cols-2 p-2 h-fit">
             <div className=" h-fit p-2">
               <p className="text-sm font-medium text-gray-500">Nombre</p>
               {barbershopInfo ? <p>{barbershopInfo?.name}</p> : <RectangleSm />}
@@ -55,6 +56,53 @@ const DetailsBarbershops = () => {
               ) : (
                 <RectangleSm />
               )}
+            </div>
+            <div className=" h-fit p-2">
+              <p className="text-sm font-medium text-gray-500 mb-4">
+                Servicios
+              </p>
+              {barbershopInfo ? (
+                <div className="flex flex-wrap gap-2">
+                  {barbershopInfo?.services.map((service, i) => (
+                    <div
+                      key={i}
+                      className="rounded-md bg-blue-500 p-2 text-white font-medium"
+                    >
+                      {service}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid gap-2">
+                  {[1, 2, 3].map((_item, i) => (
+                    <div key={i}>
+                      <RectangleSm />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className=" h-full p-2">
+              <p className="text-sm font-medium text-gray-500 mb-4">
+                Empleados
+              </p>
+              <div className="w-8/12  flex gap-3">
+                <Link
+                  to={""}
+                  className="w-full h-fit flex justify-center items-center rounded-md bg-yellow-400 p-2.5
+                   hover:bg-yellow-500 hover:text-white text-yellow-700 active:scale-95 transition-all"
+                >
+                  <MdRemoveRedEye className="text-2xl" />
+                </Link>
+                <Link
+                  to={""}
+                  className="w-full h-fit flex justify-center items-center rounded-md bg-yellow-400 p-2.5
+                  hover:bg-yellow-500 hover:text-white text-yellow-700 active:scale-95 transition-all"
+                >
+                  <FaPlus className="text-2xl" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
