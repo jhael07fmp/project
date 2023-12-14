@@ -24,19 +24,17 @@ const SignUp = () => {
                 setLoading(true);
                 await login(data.email, data.password);
                 setLoading(false);
-                message.success("Logged in successfully");
-                setTimeout(() => {
-                  navigate("/");
-                }, 1000);
+                message.success("Logged in successfully", 2);
+                navigate("/");
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
-                  message.error(fe.message);
+                  message.error(fe.message, 2);
                 }
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => message.error(err[x]?.message as string));
+              Object.keys(err).forEach((x) => message.error(err[x]?.message as string, 2));
             }
           )}
         >
