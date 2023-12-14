@@ -20,6 +20,8 @@ const NewBarbershop = () => {
         services: data.services.split(","),
         id,
       });
+
+      message.success("Barbershop created successfuly");
       navigate("/barbershops");
     } catch (err: any) {
       message.error(err.message);
