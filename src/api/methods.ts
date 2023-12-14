@@ -11,6 +11,7 @@ import {
   onSnapshot,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
@@ -78,4 +79,23 @@ export const getDocsRealtime = (
   onSnapshot(q, (querySnapshot) => {
     fun(querySnapshot.docs.map((x) => x.data()));
   });
+};
+
+export const update = async ({
+  id,
+  colletionName,
+  propName,
+  value,
+}: {
+  id: string;
+  colletionName: string;
+  propName: string;
+  value: string;
+}) => {
+  // const collection = doc();
+  const update = await updateDoc(doc(db, colletionName, id), {
+    [propName]: value,
+  });
+
+  console.log(update);
 };

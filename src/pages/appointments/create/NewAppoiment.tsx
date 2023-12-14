@@ -55,18 +55,18 @@ const NewAppoiment = () => {
           <div className="grid gap-4">
             <h2 className="font-medium">Negocio</h2>
             {barbershop?.name ? (
-              <h1 className="text-sky-600 bg-white w-fit p-1.5 rounded-lg font-medium text-xl">
+              <h1 className="text-sky-600 bg-white w-fit p-1.5 rounded-lg font-medium 2xl:text-xl">
                 {barbershop?.name?.toUpperCase()}
               </h1>
             ) : (
-              <h1 className="text-sky-600 bg-yellow-100 w-28 h-8 p-1.5 rounded-lg font-medium text-xl "></h1>
+              <h1 className="text-sky-600 bg-yellow-100 w-28 h-8 p-1.5 rounded-lg font-medium text-sm 2xl:text-xl "></h1>
             )}
           </div>
           <div className="grid gap-4">
             <h2 className="font-medium">Barbero</h2>
 
             {barber?.name ? (
-              <h1 className="text-sky-600 bg-white w-fit p-1.5 rounded-lg font-medium text-xl">
+              <h1 className="text-sky-600 bg-white w-fit p-1.5 rounded-lg font-medium 2xl:text-xl">
                 {barber?.name?.toUpperCase()}
               </h1>
             ) : (

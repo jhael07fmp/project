@@ -5,9 +5,18 @@ import { getBarbershops } from "../../api/barbershops";
 import { getBarbers } from "../../api/barbers";
 import { useNavbarContext } from "../../context/NavbarContext";
 import CardDetail from "../../components/cards/CardDetail";
+import { useAuthContext } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const { searchTerm } = useNavbarContext();
+  const { userData } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userData.roles?.includes("employee")) navigate(`/barber/${userData.id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [filterItems, setFilterItems] = useState<Barbershop[] | Barber[] | null | any>();
   const [items, setItems] = useState<Barbershop[] | Barber[] | null | any>();

@@ -4,15 +4,18 @@ import GoBackButton from "../../components/buttons/GoBackButton";
 import { useEffect, useState } from "react";
 import { getBarber } from "../../api/barbers";
 import { Appointment, Barber } from "../../interfaces/Interfaces";
-import { getWhereCondition } from "../../api/methods";
+import { getWhereCondition, update } from "../../api/methods";
 import { where } from "firebase/firestore";
 import { useAuthContext } from "../../context/authContext";
+import { FaCheck } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 const BarberDetails = () => {
   const { id } = useParams();
   const [barber, setBarber] = useState<Barber>();
   const [appointment, setAppointment] = useState<Appointment[]>();
   const { userData } = useAuthContext();
+  const [hasStatusChanged, setHasStatusChanged] = useState(false);
 
   function addDays(date2: Date, days: number) {
     date2.setDate(date2.getDate() + days);
@@ -28,7 +31,6 @@ const BarberDetails = () => {
         colletionName: "appointments",
         condition: where("barberId", "==", id),
       });
-
       setAppointment(
         appointmentsArr.filter(
           ({ dateInMillis }) =>
@@ -38,9 +40,8 @@ const BarberDetails = () => {
       );
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasStatusChanged]);
 
-  console.log(userData);
   return (
     <div className="page-container">
       <OptionsBar>
@@ -74,26 +75,72 @@ const BarberDetails = () => {
 
           <div className="rounded-md border p-4">
             <h2 className="text-xl font-bold text-gray-600">Citas para el dia de hoy</h2>
-            <div className="w-11/12 border p-2 rounded-md mt-4 grid gap-4">
-              {appointment?.map(({ customerName, dateInMillis, status }, i) => (
-                <div key={i} className="items-center flex gap-4 border p-4 rounded-md">
-                  <p className="text-lg rounded-full px-3 p-1 bg-blue-500">{i + 1} </p>
+            <div className="w-full max-w-xl border p-2 rounded-md mt-4 grid gap-4">
+              {appointment?.map(({ customerName, dateInMillis, status, id }, i) => (
+                <div
+                  key={i}
+                  className={`items-center flex gap-6 2xl:gap-10 border p-2 rounded-md ${
+                    status === "closed" ? "bg-green-50" : ""
+                  }
+                  
+                  ${status === "open" ? "bg-yellow-50 text-yellow-800" : ""}
+                  ${status === "canceled" ? "bg-red-50" : ""}
+                  `}
+                >
+                  <p className="text-lg rounded-full px-3 p-1 bg-blue-500 text-white">{i + 1} </p>
                   {!userData?.roles?.includes("customer") && (
-                    <h2 className="flex gap-2">
-                      Cliente: <span>{customerName}</span>
+                    <h2 className=" gap-0.5 grid w-full">
+                      <span className="font-medium">Cliente:</span>
+                      {customerName}
                     </h2>
                   )}
-                  <p>
+                  <div className="grid gap-0.5 w-full">
                     <span className="font-medium">Hora: </span>
 
                     {new Date(dateInMillis).toLocaleTimeString()}
-                  </p>
+                  </div>
                   {!userData?.roles?.includes("customer") && (
-                    <p>
-                      Estado: {status === "open" && "En turno ⌚"}{" "}
-                      {status === "canceled" && "Cancelada ❌"}
-                      {status === "closed" && "Cerrada ✅"}
-                    </p>
+                    <div className="grid gap-2 w-full">
+                      <span className="font-medium">Estado:</span>
+                      <span>
+                        {status === "open" && "En turno ⌚"}{" "}
+                        {status === "canceled" && "Cancelado ❌"}
+                        {status === "closed" && "Atendido ✅"}
+                      </span>
+                    </div>
+                  )}
+
+                  {status === "open" && (
+                    <div className="flex gap-2  justify-center">
+                      <button
+                        onClick={() => {
+                          setHasStatusChanged((prev: boolean) => !prev);
+                          update({
+                            id,
+                            colletionName: "appointments",
+                            propName: "status",
+                            value: "closed",
+                          });
+                        }}
+                        className="p-2 rounded-md border hover:bg-green-600 group transition-all active:scale-95 bg-white"
+                      >
+                        <FaCheck className="text-green-600 group-hover:text-white" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setHasStatusChanged((prev: boolean) => !prev);
+                          update({
+                            id,
+                            colletionName: "appointments",
+                            propName: "status",
+                            value: "canceled",
+                          });
+                        }}
+                        className="p-[0.45rem] rounded-md border hover:bg-red-600 group transition-all active:scale-95 bg-white"
+                      >
+                        <IoMdClose className="text-red-600 group-hover:text-white text-xl" />
+                      </button>
+                    </div>
                   )}
                 </div>
               ))}
