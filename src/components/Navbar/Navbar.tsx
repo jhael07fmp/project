@@ -5,16 +5,25 @@ import SearchBar from "../search/SearchBar";
 import { useNavbarContext } from "../../context/NavbarContext";
 import { MdMenu } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { logout } = useAuthContext();
   const { isOpen, setIsOpen } = useNavbarContext();
   const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState<string>();
+  const { currentUser: getUser } = useAuthContext();
 
   const logoutFn = () => {
     logout();
     navigate("/login");
   };
+
+  useEffect(() => {
+    (async () => {
+      setDisplayName((await getUser())!.displayName!);
+    })();
+  }, []);
 
   return (
     <div className="w-full p-4 shadow-md flex justify-between items-center z-10 fixed top-0 bg-white">
@@ -39,12 +48,15 @@ const Navbar = () => {
           <SearchBar />
         </div>
       </div>
-      <button
-        className="rounded-md p-2 hover:bg-yellow-200 hover:cursor-pointer"
-        onClick={logoutFn}
-      >
-        <MdLogout className="text-lg text-orange-800" />
-      </button>
+      <div className="flex gap-4 items-center">
+        <p className="font-medium text-lg">{displayName}</p>
+        <button
+          className="rounded-md p-2 hover:bg-yellow-200 hover:cursor-pointer"
+          onClick={logoutFn}
+        >
+          <MdLogout className="text-lg text-orange-800" />
+        </button>
+      </div>
     </div>
   );
 };

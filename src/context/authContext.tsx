@@ -15,6 +15,8 @@ const context = createContext<any>(null);
 const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<User>();
+  const [displayName, setDisplayName] = useState<string>();
+  // const [fireStoreUser,setUserData] =
 
   const login = async (email: string, password: string) => {
     await setPersistence(auth, browserLocalPersistence);
@@ -38,6 +40,8 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     logout,
     userData,
     setUserData,
+    displayName,
+    setDisplayName,
   };
 
   return <context.Provider value={value}>{children}</context.Provider>;

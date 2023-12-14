@@ -13,9 +13,9 @@ const CardNormal = ({
 }) => {
   return (
     <div className="w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg">
-      <div className="rounded-md overflow-hidden">
+      <div className="rounded-md overflow-hidden ">
         {image ? (
-          <img src={image} className="w-full object-cover" />
+          <img src={image} className="w-full object-cover h-72" />
         ) : (
           <div className="h-52 bg-gray-100 flex justify-center items-center text-lg font-medium text-gray-400">
             No Image

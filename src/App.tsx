@@ -10,7 +10,9 @@ import NewBarbershop from "./pages/barbershops/create/NewBarbershop";
 import DetailsBarbershops from "./pages/barbershops/details/DetailsBarbershops";
 import CreateEmployees from "./pages/barbershops/employees/CreateEmployees";
 import ViewEmployees from "./pages/barbershops/employees/ViewEmployees";
-import NewAppoiment from "./pages/appointments/NewAppoiment";
+import NewAppoiment from "./pages/appointments/create/NewAppoiment";
+import Appointment from "./pages/appointments/Appointment";
+import BarberDetails from "./pages/Barber/BarberDetails";
 
 const App = () => {
   return (
@@ -29,6 +31,9 @@ const App = () => {
 
               <Route path="/appointment/:barbershopId/:barberId" element={<NewAppoiment />} />
               <Route path="/appointment/:barbershopId/" element={<NewAppoiment />} />
+              <Route path="/appointment" element={<Appointment />} />
+
+              <Route path="/barber/:id" element={<BarberDetails />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

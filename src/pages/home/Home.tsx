@@ -29,41 +29,38 @@ export const Home = () => {
         }
       );
       setFilterItems(filterItems);
+    } else {
+      setFilterItems([1, 2, 3, 4]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   return (
     <div className="container mt-24  mx-auto flex">
-      <div className="grid md:grid-cols-4 gap-4 justify-items-center w-full">
-        {filterItems?.length > 0 ? (
-          filterItems?.map((item: Barber, i: number) => (
+      {filterItems?.length > 0 && (
+        <div className="grid md:grid-cols-4 gap-4 justify-items-center w-full">
+          {filterItems?.map((item: Barber, i: number) => (
             <div className="w-full flex justify-center" key={i}>
               <CardDetail
-                services={item.services}
+                services={item?.services}
                 buttonTitle="Hacer Cita"
-                image={item.image}
-                name={item.name}
+                image={item?.image}
+                imageUrl={`/barber/${item?.id}`}
+                name={item?.name}
                 buttonUrl={
-                  item.barbershopId
-                    ? `/appointment/${item.barbershopId}/${item.id}`
-                    : `/appointment/${item.id}`
+                  item?.barbershopId
+                    ? `/appointment/${item?.barbershopId}/${item?.id}`
+                    : `/appointment/${item?.id}`
                 }
               />
             </div>
-          ))
-        ) : (
-          <>
-            {[1, 2, 3, 4].map((_i, i) => {
-              return (
-                <div className="w-full flex justify-center" key={i}>
-                  <CardDetail buttonTitle="Hacer Cita" name={"Loading"} />
-                </div>
-              );
-            })}
-          </>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {filterItems?.length === 0 && (
+        <div className="container border rounded-md mx-auto p-4">No hay Data</div>
+      )}
     </div>
   );
 };

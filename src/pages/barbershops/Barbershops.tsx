@@ -33,25 +33,21 @@ const Barbershops = () => {
                 >
                   <div className="rounded-md overflow-hidden">
                     {barbershop.image ? (
-                      <img
-                        src={barbershop.image}
-                        className="w-full object-cover"
-                      />
+                      <img src={barbershop.image} className="w-full object-cover h-72" />
                     ) : (
-                      <div className="h-52 bg-gray-100 flex justify-center items-center text-lg font-medium text-gray-400">
+                      <div className="h-72 bg-gray-100 flex justify-center items-center text-lg font-medium text-gray-400">
                         No Image
                       </div>
                     )}
                   </div>
                   <div className="grid gap-4">
                     <h2 className="font-medium w-11/12 justify-center flex m-auto border-b p-2">
-                      {barbershop.name.toUpperCase()}
+                      {barbershop.name?.length < 30
+                        ? barbershop.name.toUpperCase().substring(0, 21) + "..."
+                        : barbershop.name.toUpperCase()}
                     </h2>
 
-                    <Link
-                      to={`/barbershops/details/${barbershop.id}`}
-                      className="button-normal"
-                    >
+                    <Link to={`/barbershops/details/${barbershop.id}`} className="button-normal">
                       Detalles
                     </Link>
                   </div>

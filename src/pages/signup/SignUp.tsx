@@ -19,6 +19,7 @@ const SignUp = () => {
                 const userId = await createUser({
                   email: data.email,
                   password: data.password,
+                  name: data.name,
                 });
                 await signUp({
                   ...data,

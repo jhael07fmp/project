@@ -63,9 +63,23 @@ const ProtectedRoute = () => {
               <button className="sidebar-options">
                 <FaUsersLine className="text-2xl" /> Servicios
               </button>
-              <button className="sidebar-options">
+              <Link to={"/appointment"} className="sidebar-options">
                 <FaUsersLine className="text-2xl" /> Citas
-              </button>
+              </Link>
+            </>
+          )}
+          {userData?.roles?.includes("customer") && (
+            <>
+              <Link to={"/appointment"} className="sidebar-options">
+                <FaUsersLine className="text-2xl" /> Citas
+              </Link>
+            </>
+          )}
+          {userData?.roles?.includes("employee") && (
+            <>
+              <Link to={"/appointment"} className="sidebar-options">
+                <FaUsersLine className="text-2xl" /> Citas
+              </Link>
             </>
           )}
         </div>

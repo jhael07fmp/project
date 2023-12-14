@@ -45,7 +45,6 @@ export type Service = string;
 export interface Barber {
   id: string;
   name: string;
-  userId: string;
   barbershopId: string;
   taxId: string;
   schedule?: ScheduleType;
@@ -59,8 +58,11 @@ export interface Appointment {
   dateInMillis: number;
   userId: string;
   barbershopId: string;
-  baberId: string;
-  services: Service[];
+  barberId?: string;
+  service: string;
+  status: "open" | "closed" | "canceled";
+  customerName: string;
+  date?: Date;
 }
 
 export type InputComponentType = {

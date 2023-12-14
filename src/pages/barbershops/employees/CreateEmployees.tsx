@@ -10,8 +10,7 @@ import { postBarber } from "../../../api/barbers";
 
 const CreateEmployees = () => {
   const { handleSubmit, register, setValue, reset, watch } = useForm();
-  const [selectOptions, setSelectOptions] =
-    useState<{ label: string; value: string | number }[]>();
+  const [selectOptions, setSelectOptions] = useState<{ label: string; value: string | number }[]>();
 
   useEffect(() => {
     (async () => {
@@ -47,24 +46,21 @@ const CreateEmployees = () => {
                 password: data.password,
               });
 
-              const id = crypto.randomUUID() + "b";
-
               const newBarber = {
-                id,
-                userId: userId!,
+                id: userId!,
                 taxId: data.taxId,
                 barbershopId: data.barbershopId,
                 name: data.name,
                 email: data.email,
               };
               await signUp({
-                id,
+                id: userId,
                 email: data.email,
                 name: data.name,
                 address: data.address,
                 roles: ["employee"],
               });
-              await postBarber(id, newBarber);
+              await postBarber(newBarber.id, newBarber);
 
               alert("Barbero created Successfully");
               reset();

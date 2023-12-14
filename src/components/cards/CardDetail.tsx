@@ -6,24 +6,26 @@ const CardDetail = ({
   name,
   buttonUrl,
   buttonTitle,
+  imageUrl,
 }: {
   image?: string;
   name?: string;
   services?: string[];
   buttonUrl?: string;
   buttonTitle?: string;
+  imageUrl?: string;
 }) => {
   return (
     <div className="min-w-[18rem] w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg">
-      <div className="rounded-md overflow-hidden">
+      <Link to={imageUrl ?? ""} className="rounded-md overflow-hidden">
         <img
           src={
             image ??
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHjLSBwIMa-ASwokA4L9bnZ7BU80W9B9WZF46O00RPH3IJFFJtIhyUNrOdC6FXdYKUx-E&usqp=CAU"
           }
-          className="w-full object-cover"
+          className="w-full object-cover hover:scale-105 transition-all hover:rounded-2xl h-72"
         />
-      </div>
+      </Link>
       <div className="grid gap-4">
         <h2 className="font-medium w-11/12 justify-center flex m-auto border-b p-2">
           {name?.toUpperCase()}

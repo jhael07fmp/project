@@ -25,15 +25,18 @@ const ViewEmployees = () => {
 
       <div className="w-full border p-4 mt-4 rounded-md">
         <div className="grid md:grid-cols-4 gap-4 justify-items-center">
-          {barbers?.map((barber) => (
-            <CardNormal
-              buttonTitle="Agendar Cita"
-              cardTitle={barber.name}
-              image={
-                barber.image ??
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHjLSBwIMa-ASwokA4L9bnZ7BU80W9B9WZF46O00RPH3IJFFJtIhyUNrOdC6FXdYKUx-E&usqp=CAU"
-              }
-            />
+          {barbers?.map((barber, i) => (
+            <div className="w-full justify-center flex" key={i}>
+              <CardNormal
+                buttonTitle="Agendar Cita"
+                cardTitle={barber.name}
+                buttonUrl={`/appointment/${barber.barbershopId}/${barber.id}`}
+                image={
+                  barber.image ??
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHjLSBwIMa-ASwokA4L9bnZ7BU80W9B9WZF46O00RPH3IJFFJtIhyUNrOdC6FXdYKUx-E&usqp=CAU"
+                }
+              />
+            </div>
           ))}
         </div>
       </div>

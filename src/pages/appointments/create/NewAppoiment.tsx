@@ -1,25 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams } from "react-router-dom";
-import OptionsBar from "../../components/OptionsBar/OptionsBar";
-import GoBackButton from "../../components/buttons/GoBackButton";
+import OptionsBar from "../../../components/OptionsBar/OptionsBar";
+import GoBackButton from "../../../components/buttons/GoBackButton";
 import { useEffect, useState } from "react";
-import { getBarbershop } from "../../api/barbershops";
-import { getBarber } from "../../api/barbers";
-import InputCustom from "../../components/Form/Inputs/InputCustom";
+import { getBarbershop } from "../../../api/barbershops";
+import { getBarber } from "../../../api/barbers";
+import InputCustom from "../../../components/Form/Inputs/InputCustom";
 import { useForm } from "react-hook-form";
-import { handleError } from "../barbershops/create/NewBarbershop";
-import { Barber, Barbershop } from "../../interfaces/Interfaces";
+import { handleError } from "../../barbershops/create/NewBarbershop";
+import { Appointment, Barber, Barbershop } from "../../../interfaces/Interfaces";
+import { useAuthContext } from "../../../context/authContext";
+import { postAppointment } from "../../../api/appoitment";
+import { User } from "firebase/auth";
 
 const NewAppoiment = () => {
+  const { currentUser: getuser } = useAuthContext();
+
   const { barbershopId, barberId } = useParams();
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, setValue, watch } = useForm();
   const [barbershop, setBarbershop] = useState<Barbershop>();
   const [barber, setBarber] = useState<Barber>();
+  const [options, setOptions] = useState<{ label: string; value: number | string }[]>();
+  const [currentUser, setCurrentUser] = useState<User | null>();
 
   useEffect(() => {
     (async () => {
+      setCurrentUser(await getuser());
+
       if (barbershopId) {
         const barbershop = await getBarbershop(barbershopId!);
         setBarbershop(barbershop);
+        setOptions(barbershop?.services.map((service) => ({ label: service, value: service })));
       }
 
       if (barbershopId) {
@@ -63,38 +74,62 @@ const NewAppoiment = () => {
             )}
           </div>
         </div>
+
         <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
+          onSubmit={handleSubmit(async (data) => {
+            try {
+              const id = crypto.randomUUID() + "c";
+              const dataForm = {
+                ...data,
+                id,
+                barberId: barber?.id,
+                barbershopId: barber?.barbershopId,
+                userId: currentUser?.uid,
+                dateInMillis: new Date(watch("dateInMillis")).getTime(),
+                status: "open",
+                customerName: currentUser?.displayName,
+              };
+
+              await postAppointment(id, dataForm as Appointment);
+              alert("Cita Agendada");
+            } catch (err: any) {
+              alert(err.message);
+            }
           }, handleError)}
         >
           <div className="w-11/12 md:w-7/12 mx-auto   p-2 rounded-md">
             <div className="form-normal-grid">
               <InputCustom
                 label="Selecciona la Fecha"
-                name="name"
+                name="dateInMillis"
                 placeholder="Selecciona la Fecha"
                 register={register}
+                setValue={setValue}
                 type="datetime"
+                rules={{ required: { value: true, message: "date is required" } }}
               />
 
               <InputCustom
-                label="Servicios"
-                name="services"
+                label="Servicio"
+                name="service"
                 placeholder="Separa cada servicio con una coma (,)"
                 register={register}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "At least one service is required is required.",
-                  },
-                }}
+                options={options}
+                setValue={setValue}
+                disabled={!watch("dateInMillis")}
+                type="select"
+                rules={{ required: { value: true, message: "Service is required" } }}
               />
             </div>
           </div>
           <div className="flex justify-center md:justify-end w-[96%] ">
             <div className="w-fit flex justify-end">
-              <button className="button-sm p-2">Agendar Cita</button>
+              <button
+                className="button-sm p-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+                disabled={!watch("dateInMillis") || !watch("service")}
+              >
+                Agendar Cita
+              </button>
             </div>
           </div>
         </form>
