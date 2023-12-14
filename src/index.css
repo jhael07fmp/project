@@ -6,8 +6,20 @@
   @apply bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all 
   text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center;
 }
+.button-sm {
+  @apply bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all 
+  text-orange-800 p-2.5 px-4 rounded-lg font-medium mt-4 max-w-sm w-fit mx-auto flex justify-center;
+}
 
 .sidebar-options {
   @apply w-11/12 mx-auto text-center mt-2 p-4 flex items-center rounded-lg duration-300 
   hover:text-white transition-all justify-center gap-4 bg-yellow-500 text-orange-800 font-medium;
+}
+
+.form-normal-grid {
+  @apply w-full grid md:grid-cols-2 gap-x-20 gap-10 pt-4;
+}
+
+.page-container {
+  @apply w-11/12 mx-auto mt-24;
 }

@@ -20,8 +20,11 @@ export const Home = () => {
   return (
     <div className="container mt-24  mx-auto flex">
       <div className="grid md:grid-cols-4 gap-4 justify-items-center">
-        {barbershops?.map((barbershop) => (
-          <div className="w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg">
+        {barbershops?.map((barbershop, i) => (
+          <div
+            key={i}
+            className="w-10/12 border p-2 rounded-lg relative group bg-white hover:cursor-pointer hover:shadow-lg"
+          >
             <div className="rounded-md overflow-hidden">
               <img src={barbershop.image} className="w-full object-cover" />
             </div>
@@ -36,15 +39,20 @@ export const Home = () => {
             </div>
 
             <div
-              className=" hidden md:block absolute group-hover:-bottom-[12rem] left-0 mx-auto   
+              className={`hidden md:block absolute ${
+                barbershop.services?.length >= 3 && "group-hover:-bottom-44"
+              } 
+              ${barbershop.services?.length === 2 && "group-hover:-bottom-32"} 
+              ${barbershop.services?.length === 1 && "group-hover:-bottom-24"} 
+              left-0 mx-auto   
               rounded-lg group-hover:shadow-xl 
-               z-[-2] transition-all duration-500 h-fit bg-white p-1 border w-full justify-center bottom-0"
+               z-[-2] transition-all duration-500 min-h-40 bg-white p-1 border w-full justify-center bottom-0`}
             >
               <h3 className="text-orange-600 text-base font-bold  mx-auto w-fit flex mb-2">
                 Servicios
               </h3>
               <div className="h-fit grid gap-2 w-11/12 mx-auto">
-                {barbershop.services.map((s) => (
+                {barbershop.services.slice(0, 3).map((s) => (
                   <div className="bg-blue-500 p-2 rounded w-full h-fit text-center text-white">
                     {s}
                   </div>
