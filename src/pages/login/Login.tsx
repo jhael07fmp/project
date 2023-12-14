@@ -5,11 +5,14 @@ import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
+import { message } from "antd";
+import { useState } from "react";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
   const { login } = useAuthContext();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
@@ -18,18 +21,22 @@ const SignUp = () => {
           onSubmit={handleSubmit(
             async (data) => {
               try {
+                setLoading(true);
                 await login(data.email, data.password);
-                navigate("/");
+                setLoading(false);
+                message.success("Logged in successfully");
+                setTimeout(() => {
+                  navigate("/");
+                }, 1000);
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
-                  alert(fe.code);
-                  console.error(fe);
+                  message.error(fe.message);
                 }
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => alert(err[x]?.message));
+              Object.keys(err).forEach((x) => message.error(err[x]?.message as string));
             }
           )}
         >
@@ -54,7 +61,12 @@ const SignUp = () => {
               register={register}
             />
           </div>
-          <button className="bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center">
+          <button
+            disabled={loading}
+            className="bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all disabled:bg-gray-300
+             disabled:text-gray-400 disabled:cursor-not-allowed
+          text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center"
+          >
             Login
           </button>
           <Link to={"/sign-up"} className="text-gray-500 text-sm mx-auto w-fit flex mt-4">

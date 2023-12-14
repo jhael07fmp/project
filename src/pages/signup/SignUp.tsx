@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { createUser, signUp } from "../../api/users";
+import { message } from "antd";
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm();
@@ -27,17 +28,21 @@ const SignUp = () => {
                   email: data.email,
                   roles: ["customer"],
                 });
-                navigate("/");
+
+                message.success("User successfully created");
+
+                setTimeout(() => {
+                  navigate("/");
+                }, 1000);
               } catch (err) {
                 if (err instanceof FirebaseError) {
                   const fe = err as FirebaseError;
-                  alert(fe.code);
-                  console.error(fe);
+                  message.error(fe.message);
                 }
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => alert(err[x]?.message));
+              Object.keys(err).forEach((x) => message.error(err[x]?.message as string));
             }
           )}
         >
