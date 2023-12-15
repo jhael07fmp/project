@@ -14,11 +14,14 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData.roles?.includes("employee")) navigate(`/barber/${userData.id}`);
+    if (userData.roles?.includes("employee"))
+      navigate(`/barber/${userData.id}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [filterItems, setFilterItems] = useState<Barbershop[] | Barber[] | null | any>();
+  const [filterItems, setFilterItems] = useState<
+    Barbershop[] | Barber[] | null | any
+  >();
   const [items, setItems] = useState<Barbershop[] | Barber[] | null | any>();
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export const Home = () => {
   return (
     <div className="container mt-24  mx-auto flex">
       {filterItems?.length > 0 && (
-        <div className="grid md:grid-cols-4 gap-4 justify-items-center w-full">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center w-full">
           {filterItems?.map((item: Barber, i: number) => (
             <div className="w-full flex justify-center" key={i}>
               <CardDetail
@@ -68,7 +71,9 @@ export const Home = () => {
       )}
 
       {filterItems?.length === 0 && (
-        <div className="container border rounded-md mx-auto p-4">No hay Data</div>
+        <div className="container border rounded-md mx-auto p-4">
+          No hay Data
+        </div>
       )}
     </div>
   );

@@ -72,8 +72,7 @@ const SignUp = () => {
             disabled={loading}
             id="login"
             className="bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all disabled:bg-gray-300
-             disabled:text-gray-400 disabled:cursor-not-allowed
-          text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center"
+             disabled:text-gray-400 disabled:cursor-not-allowed text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center"
           >
             Login
           </button>
