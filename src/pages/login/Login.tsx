@@ -35,7 +35,9 @@ const SignUp = () => {
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => message.error(err[x]?.message as string, 2));
+              Object.keys(err).forEach((x) =>
+                message.error(err[x]?.message as string, 2)
+              );
               setLoading(false);
             }
           )}
@@ -45,7 +47,9 @@ const SignUp = () => {
               label="Email"
               name="email"
               placeholder="Email"
-              rules={{ required: { value: true, message: "Email is required" } }}
+              rules={{
+                required: { value: true, message: "Email is required" },
+              }}
               register={register}
             />
 
@@ -55,7 +59,10 @@ const SignUp = () => {
               placeholder="Password"
               rules={{
                 required: { value: true, message: "Password is required" },
-                minLength: { message: "Password needs to be at least 6 digits", value: 6 },
+                minLength: {
+                  message: "Password needs to be at least 6 digits",
+                  value: 6,
+                },
               }}
               type="password"
               register={register}
@@ -63,15 +70,21 @@ const SignUp = () => {
           </div>
           <button
             disabled={loading}
+            id="login"
             className="bg-yellow-400 hover:bg-yellow-500 active:scale-95 transition-all disabled:bg-gray-300
              disabled:text-gray-400 disabled:cursor-not-allowed
           text-orange-800 p-3 rounded-lg font-medium mt-4 max-w-sm w-10/12 mx-auto flex justify-center"
           >
             Login
           </button>
-          <Link to={"/sign-up"} className="text-gray-500 text-sm mx-auto w-fit flex mt-4">
+          <Link
+            to={"/sign-up"}
+            className="text-gray-500 text-sm mx-auto w-fit flex mt-4"
+          >
             Don't you have an account?{" "}
-            <span className="ml-2 text-orange-800 font-medium">Sign up here!</span>
+            <span className="ml-2 text-orange-800 font-medium">
+              Sign up here!
+            </span>
           </Link>
         </form>
       </div>

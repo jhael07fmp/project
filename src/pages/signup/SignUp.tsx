@@ -44,7 +44,9 @@ const SignUp = () => {
               }
             },
             (err) => {
-              Object.keys(err).forEach((x) => message.error(err[x]?.message as string, 2));
+              Object.keys(err).forEach((x) =>
+                message.error(err[x]?.message as string, 2)
+              );
               setLoading(false);
             }
           )}
@@ -94,6 +96,7 @@ const SignUp = () => {
           </div>
           <button
             disabled={loading}
+            id="signUp"
             className="bg-yellow-400 text-orange-800 p-3 rounded-lg font-medium mt-4  w-10/12 mx-auto"
           >
             Sign up
