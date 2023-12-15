@@ -8,6 +8,7 @@ const SearchBar = () => {
     <div className="w-full p-2 rounded-md border border-gray-300 flex gap-2 items-center">
       <input
         type="text"
+        id="search"
         placeholder="Search barbershop or Barber..."
         className="w-full outline-none pl-2 p-0.5"
         onChange={(e) => setSearchTerm(e.target.value)}

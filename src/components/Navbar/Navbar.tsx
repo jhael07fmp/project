@@ -29,7 +29,11 @@ const Navbar = () => {
     <div className="w-full p-4 shadow-md flex justify-between items-center z-10 fixed top-0 bg-white">
       <div className="w-full flex items-center md:gap-20 gap-8 ">
         <div className="flex items-center gap-4 h-fit">
-          <button className="w-fit " onClick={() => setIsOpen((prev) => !prev)}>
+          <button
+            className="w-fit "
+            id="menu"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
             {!isOpen ? (
               <MdMenu className="text-2xl text-gray-500" />
             ) : (
@@ -51,6 +55,7 @@ const Navbar = () => {
       <div className="flex gap-4 items-center">
         <p className="font-medium text-lg">{displayName}</p>
         <button
+          id="logout"
           className="rounded-md p-2 hover:bg-yellow-200 hover:cursor-pointer"
           onClick={logoutFn}
         >
